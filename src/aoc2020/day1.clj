@@ -3,12 +3,11 @@
 
 
 (defn summable?
- "When num1 and num2 are divided by 10, return true
-  if reimainders of both sum to 10." 
-  [num1 num2]
+ "When given nums are divided by 10, return true
+  if reimainders of all sum to 10." 
+  [& nums]
   (= 10
-     (+ (rem num1 10)
-        (rem num2 10))))
+     (reduce + (map #(rem % 10) nums))))
 
 
 (defn pair-of-2020 [expenses]
@@ -30,20 +29,44 @@
    expenses))
 
 
+(defn threes-of-2020 [expenses]
+  (for [exp1 expenses
+        exp2 expenses
+        ; this "optimization" was making it slower, tenfold :facepalm:
+        exp3 expenses #_(filter #(summable? exp1 exp2 %) expenses)
+        :when (= 2020 
+                 (+ exp1 exp2 exp3))]
+    [exp1 exp2 exp3]))
+
+
+(defn input-as-ints []
+  (->> (u/input-as-lines "day1.txt")
+       (map #(Integer/parseInt %))))
+
+
 (defn part1
- "Specifically, they need you to find the two entries that 
+ "Specifically, they need you to find the two entries that
   sum to 2020 and then multiply those two numbers together."
   []
-  (let [as-ints (->> (u/input-as-lines "day1.txt")
-                     (map #(Integer/parseInt %)))
+  (let [as-ints (input-as-ints)
         [num1 num2] (pair-of-2020 as-ints)]
     (when (and num1 num2)
       (int (* num1 num2)))))
+
+
+(defn part2
+ "find three numbers in your expense report that meet the same criteria" 
+  []
+  (let [expenses (input-as-ints)
+        [num1 num2 num3 :as result] (first (threes-of-2020 expenses))]
+    (when (every? integer? result)
+      (int (* num1 num2 num3)))))
 
 
 (comment 
   (time 
    (->> (u/input-as-lines "day1.txt")
         (map #(Integer/parseInt %))
-        (pair-of-2020)))
+        (threes-of-2020)
+        (doall)))
   )
