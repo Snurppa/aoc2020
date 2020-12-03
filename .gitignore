@@ -16,3 +16,6 @@ pom.xml.asc
 *.code-workspace
 .vscode
 .calva
+
+
+resources/inputs/
