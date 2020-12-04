@@ -40,7 +40,22 @@
                 the-map)]
     result))
 
-(defn part2 [])
+(defn part2 []
+  (let [input (u/input-as-lines "day3.txt")
+        the-map (make-map input)
+        movements [[1 1]
+                   [1 3]
+                   [1 5]
+                   [1 7]
+                   [2 1]]]
+    (->> movements
+         (map #(slide-through 
+                {:trees 0 
+                 :position [0 0]
+                 :movement %}
+                the-map))
+         (map :trees)
+         (reduce *))))
 
 (comment 
   (nth (first (make-map (u/input-as-lines "day3.txt")))
