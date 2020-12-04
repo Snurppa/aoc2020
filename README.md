@@ -1,5 +1,5 @@
 # Advent of Code 2020
 
-In Clojure. 
+In Clojure.
 
-May the force be with you.
+May the force be with me...
