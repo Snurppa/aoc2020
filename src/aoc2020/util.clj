@@ -25,7 +25,3 @@
                          (io/resource)
                          (io/reader))]
       (map #(subs % 1) (get-passports rdr)))))
-
-(comment 
-  (input-as-lines "day1.txt")
-  )
