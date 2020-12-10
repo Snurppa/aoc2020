@@ -1,5 +1,6 @@
 (ns aoc2020.day5
-  (:require [aoc2020.util :as u]))
+  (:require [aoc2020.util :as u]
+            [clojure.set :as set]))
 
 (def bit->func
   {\F first \B second
@@ -35,5 +36,14 @@
          (map :sid)
          (apply max))))
 
-(defn part2 [])
+(defn part2 []
+  (let [sids (->> (u/input-as-lines "day5.txt")
+                  (map ->boarding-pass)
+                  (map :sid))
+        [min-sid max-sid] ((juxt (partial apply min)
+                                 (partial apply max))
+                           sids)]
+    (set/difference
+     (set (range min-sid (inc max-sid)))
+     (set sids))))
 
