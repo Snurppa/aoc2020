@@ -25,3 +25,17 @@
                          (io/resource)
                          (io/reader))]
       (map #(subs % 1) (get-passports rdr)))))
+
+(defn day6-input []
+  (letfn [(read-groups [rdr]
+            (loop [groups []
+                   current []]
+              (if-let [line (.readLine rdr)]
+                (if (s/blank? line)
+                  (recur (conj groups current) [])
+                  (recur groups (conj current line)))
+                (conj groups current))))]
+    (with-open [rdr (->> "inputs/day6.txt"
+                         (io/resource)
+                         (io/reader))]
+      (read-groups rdr))))
